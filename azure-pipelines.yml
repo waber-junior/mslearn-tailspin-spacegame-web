@@ -8,7 +8,7 @@ trigger:
 
 pool:
   #vmImage: 'windows-latest'
-  name: WABER-JR-NOTE
+  name: default
 
 variables:
   solution: '**/*.sln'
