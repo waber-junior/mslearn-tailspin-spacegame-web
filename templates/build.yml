@@ -1,6 +1,9 @@
 parameters:
   buildConfiguration: ''
 
+variables:
+  outputDir: 'D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\${{ parameters.buildConfiguration }}'
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - ${{ parameters.buildConfiguration }}'
@@ -16,5 +19,5 @@ steps:
     projects: ${{ parameters.projects }}
     publishWebProjects: false
     # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
-    arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\${{ parameters.buildConfiguration }}"'
+    arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(outputDir)'
     zipAfterPublish: true
