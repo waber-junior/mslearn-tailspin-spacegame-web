@@ -41,7 +41,7 @@ steps:
     # projects: '**/*.csproj'
     projects: $(SolutionPath)
     feedsToUse: config
-    nugetConfigPath: Nuget.config
+    # nugetConfigPath: Nuget.config
 
 - task: DotNetCoreCLI@2
   # displayName: 'Build the project - Release'
