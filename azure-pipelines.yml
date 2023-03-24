@@ -38,7 +38,7 @@ steps:
   inputs:
     command: 'restore'
     projects: $(SolutionPath)
-    feedsToUse: config
+    # feedsToUse: config
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
