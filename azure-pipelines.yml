@@ -12,7 +12,7 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK 6.x'
   inputs:
-    version: '6.0.x'
+    version: '6.x'
     packageType: 'sdk'
 
 - task: Npm@1
@@ -53,8 +53,7 @@ steps:
     command: 'publish'
     projects: $(SolutionPath)
     publishWebProjects: false
-    # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
-    arguments: '--no-build --configuration Release --output "C:\Users\waber\Downloads\teste"'
+    arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
