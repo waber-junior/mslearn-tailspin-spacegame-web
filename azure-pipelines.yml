@@ -2,8 +2,7 @@ trigger:
 - '*'
 
 variables:
-  SolutionPath: '**/*.csproj'
-  BuildConfiguration: 'Release'
+  # BuildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
 
 pool:
@@ -38,8 +37,7 @@ steps:
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: $(SolutionPath)
-    # feedsToUse: config
+    projects: '**/*.csproj'
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'Build the project - $(buildConfiguration)'
@@ -61,12 +59,10 @@ steps:
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Debug'
-    SolutionPath: '$(SolutionPath)'
 
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
-    SolutionPath: '$(SolutionPath)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
