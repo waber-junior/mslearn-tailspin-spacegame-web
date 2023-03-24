@@ -1,5 +1,5 @@
 parameters:
-  buildConfiguration: 'Release'
+  buildConfiguration: ''
 
 steps:
 - task: DotNetCoreCLI@2
@@ -7,13 +7,13 @@ steps:
   inputs:
     command: 'build'
     arguments: '--no-restore --configuration ${{ parameters.buildConfiguration }}'
-    projects: '**/*.csproj'
+    projects: ${{ parameters.projects }}
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish the project - ${{ parameters.buildConfiguration }}'
   inputs:
     command: 'publish'
-    projects: '**/*.csproj'
+    projects: ${{ parameters.projects }}
     publishWebProjects: false
     # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
     arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\${{ parameters.buildConfiguration }}"'

@@ -2,8 +2,8 @@ trigger:
 - '*'
 
 variables:
-  # BuildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  projects: '**/*.csproj'
 
 pool:
   name: default
@@ -37,15 +37,17 @@ steps:
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
+    projects: $(projects)
 
 # - template: templates/build.yml
 #   parameters:
 #     buildConfiguration: 'Debug'
+#     projects: $(projects)
 
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
+    projects: $(projects)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
