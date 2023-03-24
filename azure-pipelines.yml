@@ -61,12 +61,12 @@ steps:
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Debug'
-    SolutionPath: $(SolutionPath)
+    SolutionPath: '$(SolutionPath)'
 
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
-    SolutionPath: $(SolutionPath)
+    SolutionPath: '$(SolutionPath)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
