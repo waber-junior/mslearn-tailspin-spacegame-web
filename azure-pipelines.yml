@@ -54,7 +54,7 @@ steps:
     projects: $(SolutionPath)
     publishWebProjects: false
     # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
-    arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a"'
+    arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\Release"'
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
