@@ -8,7 +8,7 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK 6.x'
   inputs:
-    version: '6.x'
+    version: '6.0'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -28,15 +28,11 @@ steps:
   displayName: 'Write build info'
   workingDirectory: Tailspin.SpaceGame.Web/wwwroot
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Restore project dependencies'
-#   inputs:
-#     command: 'restore'
-#     projects: '**/*.csproj'
-- task: NuGetRestore@1
+- task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
-    solution: '**/*.sln'
+    command: 'restore'
+    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Release'
