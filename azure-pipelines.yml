@@ -1,6 +1,9 @@
 trigger:
 - '*'
 
+variables:
+  SolutionPath: '**/*.sln'
+
 pool:
   name: default
 
@@ -33,22 +36,23 @@ steps:
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
-# - script: dotnet restore
-#   displayName: 'Restore project dependencies'
+    # projects: '**/*.csproj'
+    projects: $(SolutionPath)
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Release'
   inputs:
     command: 'build'
     arguments: '--no-restore --configuration Release'
-    projects: '**/*.csproj'
+    # projects: '**/*.csproj'
+    projects: $(SolutionPath)
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish the project - Release'
   inputs:
     command: 'publish'
-    projects: '**/*.csproj'
+    # projects: '**/*.csproj'
+    projects: $(SolutionPath)
     publishWebProjects: false
     arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)/Release'
     zipAfterPublish: true
