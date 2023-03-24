@@ -41,22 +41,32 @@ steps:
     projects: $(SolutionPath)
     # feedsToUse: config
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project - $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
-    projects: $(SolutionPath)
+# - task: DotNetCoreCLI@2
+#   displayName: 'Build the project - $(buildConfiguration)'
+#   inputs:
+#     command: 'build'
+#     arguments: '--no-restore --configuration $(buildConfiguration)'
+#     projects: $(SolutionPath)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish the project - $(buildConfiguration)'
-  inputs:
-    command: 'publish'
-    projects: $(SolutionPath)
-    publishWebProjects: false
-    # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
-    arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\Release"'
-    zipAfterPublish: true
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish the project - $(buildConfiguration)'
+#   inputs:
+#     command: 'publish'
+#     projects: $(SolutionPath)
+#     publishWebProjects: false
+#     # arguments: '--no-build --configuration Release --output $(Build.ArtifactStagingDirectory)'
+#     arguments: '--no-build --configuration Release --output "D:\Program Files\Microsoft Agents\Madefy\waberjunior\1\a\Release"'
+#     zipAfterPublish: true
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Debug'
+    SolutionPath: $(SolutionPath)
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Release'
+    SolutionPath: $(SolutionPath)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
