@@ -39,10 +39,10 @@ steps:
     command: 'restore'
     projects: $(projects)
 
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Debug'
-    projects: $(projects)
+# - template: templates/build.yml
+#   parameters:
+#     buildConfiguration: 'Debug'
+#     projects: $(projects)
 
 - template: templates/build.yml
   parameters:
