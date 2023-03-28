@@ -1,19 +1,21 @@
 trigger:
 - '*'
 
-variables:
-  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  projects: '**/*.csproj'
-
 pool:
-  name: default
+  vmImage: 'ubuntu-20.04'
+  demands:
+  - npm
+
+variables:
+  buildConfiguration: 'Release'
+  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  dotnetSdkVersion: '6.x'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 6.x'
+  displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
-    version: '6.x'
-    packageType: 'sdk'
+    version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -25,29 +27,40 @@ steps:
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
-  inputs:
-    gulpFile: 'gulpfile.js'
-    gulpjs: 'node_modules/gulp/bin/gulp.js'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  workingDirectory: Tailspin.SpaceGame.Web/wwwroot
+  workingDirectory: $(wwwrootDir)
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: $(projects)
+    projects: '**/*.csproj'
 
-# - template: templates/build.yml
-#   parameters:
-#     buildConfiguration: 'Debug'
-#     projects: $(projects)
+- task: DotNetCoreCLI@2
+  displayName: 'Build the project - $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+    projects: '**/*.csproj'
 
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Release'
-    projects: $(projects)
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests - $(buildConfiguration)'
+  inputs:
+    command: 'test'
+    arguments: '--no-build --configuration $(buildConfiguration)'
+    publishTestResults: true
+    projects: '**/*.Tests.csproj'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Publish the project - $(buildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
